@@ -11,6 +11,21 @@ public static class ArraySelector
 
     private static int[] ListSelector(int[] list1, int[] list2, int[] select)
     {
-        return [];
+        int[] result = select;
+        int list1_idx = 0;
+        int list2_idx = 0;
+        int idx = 0;
+        foreach (int sel in select)
+        {
+            if (sel == 1) {
+                result[idx] = list1[list1_idx];
+                list1_idx++;
+            } else{
+                result[idx] = list2[list2_idx];
+                list2_idx++;
+            }
+            idx++;
+        }
+        return result;
     }
 }
