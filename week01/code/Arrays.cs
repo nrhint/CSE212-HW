@@ -38,5 +38,9 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+
+        // 0: Create result list
+        // 1: Get the first range and add it to the result list (The right side)
+        // 2: Get the second range and add it to the result list (The rest)
     }
 }
