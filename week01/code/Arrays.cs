@@ -40,7 +40,12 @@ public static class Arrays
         // be implemented by another person.
 
         // 0: Create result list
+        List<int> tmpdata = new List<int> ();
         // 1: Get the first range and add it to the result list (The right side)
+        tmpdata.InsertRange(0, data.GetRange(amount-1, data.Count-amount));
         // 2: Get the second range and add it to the result list (The rest)
+        tmpdata.InsertRange(amount-1, data.GetRange(0, amount));
+        Console.WriteLine(tmpdata);
+        data = tmpdata;
     }
 }
