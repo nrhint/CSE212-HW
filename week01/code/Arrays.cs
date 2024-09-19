@@ -15,10 +15,14 @@ public static class Arrays
 
 
         // 0: Create a results list
+        double[] results = new double[length];
         // 1: Loop for the length times
-        // 2: Append to the result of the number times the iterator for the list
+        for (int ii = 0; ii < length; ii++) {
+            // 2: Append to the result of the number times the iterator for the list
+            results.Append(number*ii);
+        }
         // 3: Return the list
-        return []; // replace this return statement with your own
+        return results;
     }
 
     /// <summary>
