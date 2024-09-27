@@ -11,21 +11,45 @@ public class CustomerService {
         // Test Cases
 
         // Test 1
-        // Scenario: 
-        // Expected Result: 
-        Console.WriteLine("Test 1");
-
+        // Scenario: A queue of 10 shall be created with items being able to be added and removed.
+        // Expected Result: It shall enqueue and deque properly.
         // Defect(s) Found: 
+        Console.WriteLine("Test 1");
+        CustomerService customerService = new(-5);
+        if (customerService._maxSize != 10) { throw new Exception();}
+        customerService.AddNewCustomer();
+        customerService.ServeCustomer();
+        try {
+            customerService.ServeCustomer();
+            throw new Exception("This shuold have raised an exception");
+        } catch (InvalidOperationException) {
+            // Do nothing. This is expected
+        } catch (Exception e) {
+            throw new Exception("Raised the wrong exception");
+        }
 
         Console.WriteLine("=================");
 
         // Test 2
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: Create a queue with a length that is not 10 and not <= 0
+        // Expected Result: Entering in people will add them to the queue until it becomes overfilled
+        // Defect(s) Found: Failed to raise error
         Console.WriteLine("Test 2");
+        CustomerService customerService3 = new(3);
+        if (customerService3._maxSize != 3) {throw new Exception();}
+        customerService3.AddNewCustomer();
+        customerService3.AddNewCustomer();
+        customerService3.AddNewCustomer();
+        try{
+            customerService3.AddNewCustomer();
+            throw new Exception("Did not raise an exception when making the queue too long");
+        } catch (InvalidOperationException) {
+            //Do nothing this is expected
+        } catch (Exception e) {
+            throw new Exception("Raised wrong exception");
+        }
 
-        // Defect(s) Found: 
-
+        Console.WriteLine("All tests passed!");
         Console.WriteLine("=================");
 
         // Add more Test Cases As Needed Below
@@ -67,9 +91,9 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count >= _maxSize) {
             Console.WriteLine("Maximum Number of Customers in Queue.");
-            return;
+            throw new InvalidOperationException("The maximum number of Customers is already in the queue... What kind of a service do you have???");
         }
 
         Console.Write("Customer Name: ");
@@ -88,9 +112,14 @@ public class CustomerService {
     /// Dequeue the next customer and display the information.
     /// </summary>
     private void ServeCustomer() {
-        _queue.RemoveAt(0);
-        var customer = _queue[0];
-        Console.WriteLine(customer);
+        if (_queue.Count() > 0) {
+            var customer = _queue[0];
+            _queue.RemoveAt(0);
+            Console.WriteLine(customer);
+        } else {
+            Console.WriteLine("Can not serve a customer. There are none left. Take a break?");
+            throw new InvalidOperationException("Can not serve a customer. There are none left. Take a break?");
+        }
     }
 
     /// <summary>
