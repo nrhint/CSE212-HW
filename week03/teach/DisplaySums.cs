@@ -34,13 +34,13 @@
             int a = 10-number;
             int b = 10+number;
             if (stored_numbers.Contains(a)) {
-                Console.WriteLine($"{{{number}}} {{{a}}}");
+                Console.WriteLine(String.Format("{0} {1}", number, a));
                 stored_numbers.Remove(a);
             } else if (stored_numbers.Contains(b)) {
-                Console.WriteLine($"{{number}} {{b}}");
+                Console.WriteLine(String.Format("{0} {1}", number, b));
                 stored_numbers.Remove(b);
             } else {
-                stored_numbers.Add(number)
+                stored_numbers.Add(number);
             }
         }
         // TODO Problem 2 - This should print pairs of numbers in the given array
