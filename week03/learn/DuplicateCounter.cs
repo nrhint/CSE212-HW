@@ -1,4 +1,6 @@
-﻿public class DuplicateCounter
+﻿using System.Xml.XPath;
+
+public class DuplicateCounter
 {
     //Count how many duplicates are in a collection of data.
 
@@ -24,7 +26,14 @@
 
     private static int CountDuplicates(int[] data)
     {
-        // Add code here.
-        return 0;
+        HashSet<int> hashed_numbers = new HashSet<int>();
+        int duplicates = 0;
+        for (int dat = 0; dat < data.Count(); dat++) {
+            bool result = hashed_numbers.Add(data[dat]); // The return value indicates if something was added to the set.
+            if (!result) {
+                duplicates++;
+            }
+        }
+        return duplicates;
     }
 }
