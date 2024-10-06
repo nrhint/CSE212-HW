@@ -1,6 +1,7 @@
     using System.Text.Json;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
-    public static class SetsAndMaps
+public static class SetsAndMaps
     {
         /// <summary>
         /// The words parameter contains a list of two character 
@@ -28,7 +29,7 @@
                 Array.Reverse(tmp);
                 string rev_word = new string(tmp);
                 if (result_dict.ContainsKey(rev_word)) { // This should only happen if the key is a reverse
-                    results.Append(String.Format("{0} & {1}", rev_word, word));
+                    results.Add(String.Format("{0} & {1}", rev_word, word));
                 } else {
                     result_dict[word] = word;
                 }
@@ -53,7 +54,12 @@
             foreach (var line in File.ReadLines(filename))
             {
                 var fields = line.Split(",");
-                // TODO Problem 2 - ADD YOUR CODE HERE
+                //Field 3 is the degree I think field 1 is the count
+                if (degrees.ContainsKey(fields[3])) {
+                    degrees[fields[3]] += 1;
+                } else {
+                    degrees[fields[3]] = 1;
+                }
             }
 
             return degrees;
@@ -77,8 +83,37 @@
         /// </summary>
         public static bool IsAnagram(string word1, string word2)
         {
-            // TODO Problem 3 - ADD YOUR CODE HERE
-            return false;
+            Dictionary<char, int> values = new Dictionary<char, int> {};
+            foreach (char ch in word1.ToLower()) {
+                if (ch != ' ') {
+                    if (values.ContainsKey(ch)) {
+                        values[ch] += 1;
+                    } else {
+                        values[ch] = 1;
+                    }
+                }
+            }
+
+            foreach (char ch in word2.ToLower()) {
+                if (ch != ' ') {
+                    if (values.ContainsKey(ch)) {
+                        if (values[ch] == 0) {
+                            return false; // There are more of this char in the second word
+                        } else {
+                            values[ch] -= 1;
+                        }
+                    } else {
+                        return false; // There is a char missing from the first word
+                    }
+                }
+            }
+
+            foreach (var thing in values) {
+                if (thing.Value != 0) {
+                    return false; // There were leftover chars from the first word.
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -107,11 +142,13 @@
 
             var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
 
-            // TODO Problem 5:
-            // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
-            // on those classes so that the call to Deserialize above works properly.
-            // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
-            // 3. Return an array of these string descriptions.
-            return [];
+            String[] result = new string[featureCollection.features.Count];
+
+            foreach (var feature in featureCollection.features) {
+                
+                result[featureCollection.features.IndexOf(feature)] = String.Format("{0} - Mag {1}", feature.properties.place, feature.properties.mag);
+            }
+
+            return result;
         }
     }
