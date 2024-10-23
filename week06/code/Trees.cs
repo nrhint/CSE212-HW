@@ -11,8 +11,10 @@ public static class Trees
     /// </summary>
     public static BinarySearchTree CreateTreeFromSortedList(int[] sortedNumbers)
     {
-        var bst = new BinarySearchTree(); // Create an empty BST to start with 
-        InsertMiddle(sortedNumbers, 0, sortedNumbers.Length - 1, bst);
+        var bst = new BinarySearchTree(); // Create an empty BST to start with
+        if (sortedNumbers.Length != 0) {
+            InsertMiddle(sortedNumbers, 0, sortedNumbers.Length - 1, bst);
+        }
         return bst;
     }
 
@@ -48,6 +50,17 @@ public static class Trees
     /// <param name="bst">the BinarySearchTree in which to insert the values</param>
     private static void InsertMiddle(int[] sortedNumbers, int first, int last, BinarySearchTree bst)
     {
-        // TODO Start Problem 5
+        if (last == first) {
+            bst.Insert(sortedNumbers[first]);
+            return;
+        }
+        int mid = ((last-first)/2) + first;
+        bst.Insert(sortedNumbers[mid]);
+        if (mid == first) {
+            InsertMiddle(sortedNumbers, first+1, mid+1, bst);
+        } else {
+            InsertMiddle(sortedNumbers, first, mid-1, bst);
+            InsertMiddle(sortedNumbers, mid+1, last, bst);
+        }
     }
 }
